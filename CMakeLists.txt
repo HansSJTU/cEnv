@@ -2,15 +2,20 @@ cmake_minimum_required( VERSION 2.8 )
 
 PROJECT( TEST )
 
-# glog  
-include("cmake/FindGlog.cmake")  
-include_directories(SYSTEM ${GLOG_INCLUDE_DIRS})  
-list(APPEND LINKER_LIBS ${GLOG_LIBRARIES})  
+# opencv
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+list(APPEND LINKER_LIBS ${OpenCV_LIBS})
 
-# gflags  
-include("cmake/FindGFlags.cmake")  
-include_directories(SYSTEM ${GFLAGS_INCLUDE_DIRS})  
-list(APPEND LINKER_LIBS ${GFLAGS_LIBRARIES})  
+# glog
+include("cmake/FindGlog.cmake")
+include_directories(SYSTEM ${GLOG_INCLUDE_DIRS})
+list(APPEND LINKER_LIBS ${GLOG_LIBRARIES})
+
+# gflags
+include("cmake/FindGFlags.cmake")
+include_directories(SYSTEM ${GFLAGS_INCLUDE_DIRS})
+list(APPEND LINKER_LIBS ${GFLAGS_LIBRARIES})
 
 ADD_EXECUTABLE(test test.cpp)
 

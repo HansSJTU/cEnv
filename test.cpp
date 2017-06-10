@@ -8,8 +8,12 @@
 #include <iostream>
 #include <gflags/gflags.h>
 #include <glog/logging.h>
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 using namespace std;
+using namespace cv;
 
 DEFINE_int32(test_int, 1, "This is to test int");
 DEFINE_string(test_string, "Test String", "This is to test string");
@@ -27,6 +31,9 @@ int main(int argc, char* argv[])
     FLAGS_colorlogtostderr = true;
     FLAGS_logbufsecs = 0;
 
+    Mat image = imread("testImage.png");
+    namedWindow("image", CV_WINDOW_AUTOSIZE);
+    imshow("image", image);
     
     google::ShutdownGoogleLogging();
     return 0;
