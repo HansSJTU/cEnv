@@ -31,6 +31,9 @@ if(OPENMP_FOUND)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
+# use c++ 11
+add_compile_options(-std=c++11)
+
 ADD_EXECUTABLE(test test.cpp)
 
 target_link_libraries(test ${LINKER_LIBS})
