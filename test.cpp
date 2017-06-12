@@ -34,6 +34,7 @@ int main(int argc, char* argv[])
     Mat image = imread("testImage.png");
     namedWindow("image", CV_WINDOW_AUTOSIZE);
     imshow("image", image);
+    cvWaitKey(100000);
     
     google::ShutdownGoogleLogging();
     return 0;
