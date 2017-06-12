@@ -14,12 +14,14 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <jsoncpp/json/json.h> 
 #include <omp.h> 
+#include <parallel/algorithm>
+#include <boost/filesystem.hpp>
 
 using namespace std;
 using namespace cv;
 
 DEFINE_int32(threads, 4, "Thread count");
-DEFINE_string(test_string, "Test String", "This is to test string");
+DEFINE_string(glog_dir, "./log/", "The output log dir");
 
 int main(int argc, char* argv[])
 {
@@ -27,10 +29,14 @@ int main(int argc, char* argv[])
     google::InitGoogleLogging(argv[0]);
 
     google::SetStderrLogging(google::INFO);
-    google::SetLogDestination(google::GLOG_INFO, "./log/log_info_");
-    google::SetLogDestination(google::GLOG_WARNING, "./log/log_warning_");
-    google::SetLogDestination(google::GLOG_ERROR, "./log/log_error_");
-    google::SetLogDestination(google::GLOG_FATAL, "./log/log_fatal_");
+    if (!boost::filesystem::exists(FLAGS_glog_dir))
+    {
+        boost::filesystem::create_directories(FLAGS_glog_dir);
+    }
+    google::SetLogDestination(google::GLOG_INFO, (FLAGS_glog_dir + "/log_info_").c_str());
+    google::SetLogDestination(google::GLOG_WARNING, (FLAGS_glog_dir + "/log_warning_").c_str());
+    google::SetLogDestination(google::GLOG_ERROR, (FLAGS_glog_dir + "/log_error_").c_str());
+    google::SetLogDestination(google::GLOG_FATAL, (FLAGS_glog_dir + "/log_fatal_").c_str());
     FLAGS_colorlogtostderr = true;
     FLAGS_logbufsecs = 0;
     
@@ -52,6 +58,17 @@ int main(int argc, char* argv[])
 
     // LOG(INFO) << rootValue["address"][0]["name"].asString();
 
+    boost::filesystem::path p("/usr/include/boost/filesystem.hpp");
+    LOG(INFO) << p.string();
+    LOG(INFO) << p.parent_path().string();
+    LOG(INFO) << p.stem();
+    LOG(INFO) << p.filename();
+    LOG(INFO) << p.extension();
+    LOG(INFO) << boost::filesystem::change_extension("test.c", "so");
+
+    LOG(INFO) << boost::filesystem::exists(p);
+    LOG(INFO) << boost::filesystem::is_directory(p);
+    
     google::ShutdownGoogleLogging();
     return 0;
 }
