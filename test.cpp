@@ -14,13 +14,12 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <jsoncpp/json/json.h> 
 #include <omp.h> 
-#include <parallel/algorithm>
 #include <boost/filesystem.hpp>
 
 using namespace std;
 using namespace cv;
 
-DEFINE_int32(threads, 4, "Thread count");
+DEFINE_int32(threads, 8, "Thread count");
 DEFINE_string(glog_dir, "./log/", "The output log dir");
 
 int main(int argc, char* argv[])
@@ -68,6 +67,17 @@ int main(int argc, char* argv[])
 
     LOG(INFO) << boost::filesystem::exists(p);
     LOG(INFO) << boost::filesystem::is_directory(p);
+
+    int i = 0;
+#pragma omp parallel for private(i)
+    for (i = 0; i < 10000; i++)
+    {
+        for (int k = 0; k < 10000000; k++)
+        {
+            if (k == 10000000 - 1)
+                LOG(INFO) << i;
+        }
+    }
     
     google::ShutdownGoogleLogging();
     return 0;

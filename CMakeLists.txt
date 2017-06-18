@@ -36,14 +36,17 @@ include_directories(SYSTEM ${JSONCPP_INCLUDE_DIRS})
 list(APPEND LINKER_LIBS ${JSONCPP_LIBRARIES})
 
 # openmp
-FIND_PACKAGE(OpenMP REQUIRED)
+FIND_PACKAGE(OpenMP)
 if(OPENMP_FOUND)
     message("-- Found openmp")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 else()
-    message(FATAL "openmp not found")
+    message("-- Not Found openmp, use llvm")
+    SET(CMAKE_CXX_COMPILER /usr/local/opt/llvm/bin/clang++)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/local/opt/llvm/include -fopenmp")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/opt/llvm/lib")
 endif()
 
 # use c++ 11
