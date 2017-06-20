@@ -35,6 +35,11 @@ include("cmake/FindJsonCpp.cmake")
 include_directories(SYSTEM ${JSONCPP_INCLUDE_DIRS})
 list(APPEND LINKER_LIBS ${JSONCPP_LIBRARIES})
 
+# gprofiler
+include("cmake/FindGProfiler.cmake")
+include_directories(SYSTEM ${PROFILER_INCLUDE_DIRS})
+list(APPEND LINKER_LIBS ${PROFILER_LIBRARIES})
+
 # openmp
 FIND_PACKAGE(OpenMP)
 if(OPENMP_FOUND)
@@ -43,8 +48,8 @@ if(OPENMP_FOUND)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 else()
-    message("-- Not Found openmp, use llvm")
-    SET(CMAKE_CXX_COMPILER /usr/local/opt/llvm/bin/clang++)
+    message("-- Not Found openmp by default setting, use llvm/clang++")
+    set(CMAKE_CXX_COMPILER /usr/local/opt/llvm/bin/clang++)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/local/opt/llvm/include -fopenmp")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/usr/local/opt/llvm/lib")
 endif()
