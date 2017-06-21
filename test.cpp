@@ -80,8 +80,8 @@ int main(int argc, char* argv[])
     LOG(INFO) << boost::filesystem::is_directory(p);
 
     int i = 0;
-//#pragma omp parallel for private(i)
-    for (int i = 0; i < 1000; i++)
+#pragma omp parallel for private(i)
+    for (int i = 0; i < 100; i++)
     {
         circle(i);
     }

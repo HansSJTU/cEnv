@@ -39,6 +39,8 @@ list(APPEND LINKER_LIBS ${JSONCPP_LIBRARIES})
 include("cmake/FindGProfiler.cmake")
 include_directories(SYSTEM ${PROFILER_INCLUDE_DIRS})
 list(APPEND LINKER_LIBS ${PROFILER_LIBRARIES})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer -pg")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-no_pie")
 
 # openmp
 FIND_PACKAGE(OpenMP)
