@@ -15,10 +15,10 @@ set(PROFILER_ROOT_DIR "" CACHE PATH "Folder contains JsonCpp")
 
 # We are testing only a couple of files in the include directories
 if(WIN32)
-    find_path(PROFILER_INCLUDE_DIR google/profiler.h
+    find_path(PROFILER_INCLUDE_DIR gperftools/profiler.h
         PATHS ${PROFILER_ROOT_DIR}/src/windows)
 else()
-    find_path(PROFILER_INCLUDE_DIR google/profiler.h
+    find_path(PROFILER_INCLUDE_DIR gperftools/profiler.h
         PATHS ${PROFILER_ROOT_DIR})
 endif()
 

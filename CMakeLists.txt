@@ -39,8 +39,27 @@ list(APPEND LINKER_LIBS ${JSONCPP_LIBRARIES})
 include("cmake/FindGProfiler.cmake")
 include_directories(SYSTEM ${PROFILER_INCLUDE_DIRS})
 list(APPEND LINKER_LIBS ${PROFILER_LIBRARIES})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer -pg")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-no_pie")
+if (CMAKE_SYSTEM_NAME MATCHES "Darwin") #Disable ASLR on OSX
+    message("--   Disabled ASLR")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer -pg")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-no_pie")
+endif()
+
+# tcmalloc
+include("cmake/FindTCMalloc.cmake")
+include_directories(SYSTEM ${TCMALLOC_INCLUDE_DIRS})
+list(APPEND LINKER_LIBS ${TCMALLOC_LIBRARIES})
+if (CMAKE_SYSTEM_NAME MATCHES "Darwin") # On mac need to disable SIP!
+    MESSAGE("YOU NEED TO MAKE SURE SIP HAS BEEN DISABLED (after OSX 10.11)!")
+    SET(ENV{DYLD_FORCE_FLAT_NAMESPACE} 1)
+    SET(ENV{DYLD_INSERT_LIBRARIES} ${TCMALLOC_LIBRARIES})
+else ()
+    MESSAGE("ASSUME IT iS LINUX")
+    SET(ENV{LD_PRELOAD} ${TCMALLOC_LIBRARIES})
+endif()
+    
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -force_flat_namespace")
+#SET(ENV{LD_PRELOAD} ${TCMALLOC_LIBRARIES})
 
 # openmp
 FIND_PACKAGE(OpenMP)
