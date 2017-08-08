@@ -35,7 +35,8 @@ if(MSVC)
 
     set(JSONCPP_LIBRARY optimized ${JSONCPP_LIBRARY_RELEASE} debug ${JSONCPP_LIBRARY_DEBUG})
 else()
-    find_library(JSONCPP_LIBRARY jsoncpp)
+    find_library(JSONCPP_LIBRARY jsoncpp
+        PATHS ${JSONCPP_ROOT_DIR})
 endif()
 
 find_package_handle_standard_args(JsonCpp DEFAULT_MSG JSONCPP_INCLUDE_DIR JSONCPP_LIBRARY)

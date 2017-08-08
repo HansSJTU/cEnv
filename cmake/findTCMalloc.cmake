@@ -35,7 +35,8 @@ if(MSVC)
 
     set(TCMALLOC_LIBRARY optimized ${TCMALLOC_LIBRARY_RELEASE} debug ${TCMALLOC_LIBRARY_DEBUG})
 else()
-    find_library(TCMALLOC_LIBRARY tcmalloc)
+    find_library(TCMALLOC_LIBRARY tcmalloc
+        PATHS ${TCMALLOC_ROOT_DIR})
 endif()
 
 find_package_handle_standard_args(tcmalloc DEFAULT_MSG TCMALLOC_INCLUDE_DIR TCMALLOC_LIBRARY)

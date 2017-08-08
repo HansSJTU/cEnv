@@ -33,8 +33,7 @@ if(MSVC)
     set(GLOG_LIBRARY optimized ${GLOG_LIBRARY_RELEASE} debug ${GLOG_LIBRARY_DEBUG})
 else()
     find_library(GLOG_LIBRARY glog
-        PATHS ${GLOG_ROOT_DIR}
-        PATH_SUFFIXES lib lib64)
+        PATHS ${GLOG_ROOT_DIR})
 endif()
 
 find_package_handle_standard_args(Glog DEFAULT_MSG GLOG_INCLUDE_DIR GLOG_LIBRARY)

@@ -35,7 +35,8 @@ if(MSVC)
 
     set(PROFILER_LIBRARY optimized ${PROFILER_LIBRARY_RELEASE} debug ${PROFILER_LIBRARY_DEBUG})
 else()
-    find_library(PROFILER_LIBRARY profiler)
+    find_library(PROFILER_LIBRARY profiler
+        PATHS ${PROFILER_ROOT_DIR})
 endif()
 
 find_package_handle_standard_args(profiler DEFAULT_MSG PROFILER_INCLUDE_DIR PROFILER_LIBRARY)
